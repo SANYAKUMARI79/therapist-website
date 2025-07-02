@@ -14,7 +14,9 @@ export default function Contact() {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (e: any) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -22,116 +24,118 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.name) newErrors.name = "Name is required";
     if (!formData.phone) newErrors.phone = "Phone is required";
     if (!formData.email) newErrors.email = "Email is required";
     if (!formData.message) newErrors.message = "Please describe your reason";
-    if (!formData.preferredTime) newErrors.preferredTime = "Please add time";
+    if (!formData.preferredTime) newErrors.preferredTime = "Add preferred time";
     if (!formData.agree) newErrors.agree = "You must agree to be contacted";
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       alert("Form submitted!");
+      // Optional: reset form or send to backend
     }
   };
 
   return (
-    <section id="contact" className="py-16 px-4 bg-gray-100">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
-        <h2 className="text-3xl font-bold text-blue-700 mb-6 text-center">
-          Contact Dr. Blake
-        </h2>
+    <section id="contact" className="bg-white py-16 px-4">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-blue-800 mb-8">Contact Dr. Blake</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block font-semibold text-gray-800 text-base">Name</label>
-
+            <label className="block font-medium text-gray-700">Name</label>
             <input
+              type="text"
               name="name"
-              className="w-full p-2 border rounded"
               value={formData.name}
               onChange={handleChange}
+              className="w-full mt-1 p-3 border rounded-lg"
+              required
             />
-            {errors.name && <p className="text-red-500">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-800 text-base">Phone</label>
+            <label className="block font-medium text-gray-700">Phone</label>
             <input
+              type="tel"
               name="phone"
-              className="w-full p-2 border rounded"
               value={formData.phone}
               onChange={handleChange}
+              className="w-full mt-1 p-3 border rounded-lg"
+              required
             />
-            {errors.phone && <p className="text-red-500">{errors.phone}</p>}
+            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-800 text-base">Email</label>
+            <label className="block font-medium text-gray-700">Email</label>
             <input
-              name="email"
               type="email"
-              className="w-full p-2 border rounded"
+              name="email"
               value={formData.email}
               onChange={handleChange}
+              className="w-full mt-1 p-3 border rounded-lg"
+              required
             />
-            {errors.email && <p className="text-red-500">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-800 text-base">What brings you here?</label>
+            <label className="block font-medium text-gray-700">What brings you here?</label>
             <textarea
               name="message"
-              className="w-full p-2 border rounded"
               value={formData.message}
               onChange={handleChange}
+              className="w-full mt-1 p-3 border rounded-lg"
+              rows={4}
+              required
             />
-            {errors.message && <p className="text-red-500">{errors.message}</p>}
+            {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-800 text-base">
-              Preferred time to reach you
-            </label>
+            <label className="block font-medium text-gray-700">Preferred time to reach you</label>
             <input
+              type="text"
               name="preferredTime"
-              className="w-full p-2 border rounded"
               value={formData.preferredTime}
               onChange={handleChange}
+              className="w-full mt-1 p-3 border rounded-lg"
+              required
             />
             {errors.preferredTime && (
-              <p className="text-red-500">{errors.preferredTime}</p>
+              <p className="text-red-500 text-sm">{errors.preferredTime}</p>
             )}
           </div>
 
-          <div>
-            <div className="flex items-center space-x-2">
-  <input
-    type="checkbox"
-    name="agree"
-    checked={formData.agree}
-    onChange={handleChange}
-    className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-  />
-  <label className="text-gray-900 font-medium">I agree to be contacted</label>
-</div>
-
-
-            
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              name="agree"
+              checked={formData.agree}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="text-gray-700">
+              I agree to be contacted
+            </label>
           </div>
-          {errors.agree && <p className="text-red-500">{errors.agree}</p>}
+          {errors.agree && <p className="text-red-500 text-sm">{errors.agree}</p>}
 
           <button
-  type="submit"
-  className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-md transition duration-200"
->
-  Submit
-</button>
-
+            type="submit"
+            className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </section>
