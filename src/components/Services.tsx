@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Services() {
   const services = [
     {
@@ -30,7 +32,7 @@ export default function Services() {
               key={service.title}
               className="bg-white shadow-lg rounded-xl overflow-hidden transition hover:shadow-xl"
             >
-              <img
+              <Image
                 src={service.image}
                 alt={service.title}
                 className="h-48 w-full object-cover"
